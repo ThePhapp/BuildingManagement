@@ -61,7 +61,7 @@
 <%--        </ul>--%>
 <%--    </li>--%>
 <%--</ul>--%>
-    <ul class="nav nav-list" style="top: 0px;">
+    <ul class="nav nav-list">
         <li class="">
             <a href="#" class="dropdown-toggle">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-buildings-fill" viewBox="0 0 16 16">
@@ -72,7 +72,7 @@
             <b class="arrow"></b>
             <ul class="submenu nav-hide" style="display: none;">
                 <li class="">
-                    <a href="/admin/user-list">
+                    <a href="/admin/building-list">
                         <i class="menu-icon fa fa-caret-right"></i>
                         Danh sách tòa nhà
                     </a>
