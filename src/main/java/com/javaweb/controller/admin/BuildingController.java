@@ -2,19 +2,45 @@ package com.javaweb.controller.admin;
 
 
 
+import com.javaweb.model.dto.BuildingDTO;
+import com.javaweb.model.response.BuildingSearchResponse;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller(value="buildingControllerOfAdmin")
 public class BuildingController {
 
     @RequestMapping(value = "/admin/building-list", method = RequestMethod.GET)
-    public ModelAndView buildingList(HttpServletRequest request) {
+    public ModelAndView buildingList(@ModelAttribute BuildingDTO buildingDTO, HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("admin/building/list");
+        mav.addObject("modelSearch", buildingDTO);
+        //Xu ly lay du lieu tu database
+
+        List<BuildingSearchResponse> responseList = new ArrayList<>();
+        BuildingSearchResponse buildingSearchResponse = new BuildingSearchResponse();
+        buildingSearchResponse.setId(3L);
+        buildingSearchResponse.setName("ThePhap");
+        buildingSearchResponse.setAddress("HaNoi");
+        buildingSearchResponse.setNumberOfBasement(2L);
+        buildingSearchResponse.setManagerName("TranThe");
+
+        BuildingSearchResponse buildingSearchResponse1 = new BuildingSearchResponse();
+        buildingSearchResponse1.setId(4L);
+        buildingSearchResponse1.setName("ThePhap123");
+        buildingSearchResponse1.setAddress("HaNoi1");
+        buildingSearchResponse1.setNumberOfBasement(2L);
+        buildingSearchResponse1.setManagerName("TranThe1");
+
+        responseList.add(buildingSearchResponse);
+        responseList.add(buildingSearchResponse1);
+        mav.addObject("responseList", responseList);
         return mav;
     }
 
