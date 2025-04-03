@@ -10,7 +10,10 @@
         <div class="main-content-inner">
             <div class="breadcrumbs" id="breadcrumbs">
                 <script type="text/javascript">
-                    try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+                    try {
+                        ace.settings.check('breadcrumbs', 'fixed')
+                    } catch (e) {
+                    }
                 </script>
 
                 <ul class="breadcrumb">
@@ -24,7 +27,8 @@
                 <div class="nav-search" id="nav-search">
                     <form class="form-search">
 								<span class="input-icon">
-									<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+									<input type="text" placeholder="Search ..." class="nav-search-input"
+                                           id="nav-search-input" autocomplete="off"/>
 									<i class="ace-icon fa fa-search nav-search-icon"></i>
 								</span>
                     </form>
@@ -52,27 +56,27 @@
                             </div>
 
                             <div class="ace-settings-item">
-                                <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-navbar" />
+                                <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-navbar"/>
                                 <label class="lbl" for="ace-settings-navbar"> Fixed Navbar</label>
                             </div>
 
                             <div class="ace-settings-item">
-                                <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-sidebar" />
+                                <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-sidebar"/>
                                 <label class="lbl" for="ace-settings-sidebar"> Fixed Sidebar</label>
                             </div>
 
                             <div class="ace-settings-item">
-                                <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-breadcrumbs" />
+                                <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-breadcrumbs"/>
                                 <label class="lbl" for="ace-settings-breadcrumbs"> Fixed Breadcrumbs</label>
                             </div>
 
                             <div class="ace-settings-item">
-                                <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-rtl" />
+                                <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-rtl"/>
                                 <label class="lbl" for="ace-settings-rtl"> Right To Left (rtl)</label>
                             </div>
 
                             <div class="ace-settings-item">
-                                <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-add-container" />
+                                <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-add-container"/>
                                 <label class="lbl" for="ace-settings-add-container">
                                     Inside
                                     <b>.container</b>
@@ -82,17 +86,17 @@
 
                         <div class="pull-left width-50">
                             <div class="ace-settings-item">
-                                <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-hover" />
+                                <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-hover"/>
                                 <label class="lbl" for="ace-settings-hover"> Submenu on Hover</label>
                             </div>
 
                             <div class="ace-settings-item">
-                                <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-compact" />
+                                <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-compact"/>
                                 <label class="lbl" for="ace-settings-compact"> Compact Sidebar</label>
                             </div>
 
                             <div class="ace-settings-item">
-                                <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-highlight" />
+                                <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-highlight"/>
                                 <label class="lbl" for="ace-settings-highlight"> Alt. Active Item</label>
                             </div>
                         </div><!-- /.pull-left -->
@@ -100,10 +104,12 @@
                 </div><!-- /.ace-settings-container -->
 
                 <div class="page-header">
-                    <h1>Edit Building <small><i class="ace-icon fa fa-angle-double-right"></i> overview & stats</small></h1>
+                    <h1>Edit Building <small><i class="ace-icon fa fa-angle-double-right"></i> overview & stats</small>
+                    </h1>
                 </div>
 
                 <div class="row">
+                    <form:form modelAttribute="BuildingEdit" id="listForm" method="GET">
                     <div class="col-xs-12">
                         <form class="form-horizontal" role="form" id="form-edit">
                             <div class="form-container">
@@ -113,34 +119,34 @@
                                 <div class="form-group">
                                     <label class="col-xs-3 control-label">Tên tòa nhà</label>
                                     <div class="col-xs-9">
-                                        <input class="form-control" type="text" id="name" name="name" placeholder="Nhập tên tòa nhà">
+                                        <form:input class="form-control" path="name"/>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-xs-3 control-label">Quận</label>
                                     <div class="col-xs-4">
-                                        <select id="districtid" class="form-control">
-                                            <option value="">---Chọn quận---</option>
-                                            <option value="1">Quận 1</option>
-                                            <option value="2">Quận 2</option>
-                                            <option value="3">Quận 3</option>
-                                            <option value="4">Quận 4</option>
-                                        </select>
+                                        <form:select class="form-control" path="district">
+                                            <form:option value="">---Chọn quận---</form:option>
+                                            <form:option value="Quan_1">Quận 1</form:option>
+                                            <form:option value="Quan_2">Quận 2</form:option>
+                                            <form:option value="Quan_3">Quận 3</form:option>
+                                            <form:option value="Quan_4">Quận 4</form:option>
+                                        </form:select>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-xs-3 control-label">Phường</label>
                                     <div class="col-xs-9">
-                                        <input class="form-control" type="text"  id="ward" name="ward" placeholder="Nhập tên phường">
+                                        <form:input class="form-control" path="ward"/>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-xs-3 control-label">Đường</label>
                                     <div class="col-xs-9">
-                                        <input class="form-control" type="text"  id="street" name="street" placeholder="Nhập tên đường">
+                                        <form:input class="form-control" path="street"/>
                                     </div>
                                 </div>
 
@@ -148,37 +154,30 @@
                                 <h3 class="form-section">Thông tin cấu trúc</h3>
 
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">Kết cấu</label>
-                                    <div class="col-xs-9">
-                                        <input class="form-control" type="text"  id="structure" name="structure" placeholder="Ví dụ: 1 trệt 5 lầu">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
                                     <label class="col-xs-3 control-label">Số tầng hầm</label>
                                     <div class="col-xs-4">
-                                        <input class="form-control" type="number"  id="numberofbasement" name="numberofbasement" min="0" placeholder="0">
+                                        <form:input class="form-control" path="numberOfBasement"/>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-xs-3 control-label">Diện tích sàn</label>
                                     <div class="col-xs-4">
-                                        <input class="form-control" type="number" id="floorarea"  name="floorarea" min="0" placeholder="m²">
+                                        <form:input class="form-control" path="floorArea"/>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-xs-3 control-label">Hướng</label>
                                     <div class="col-xs-4">
-                                        <input class="form-control" type="text" id="direction"  name="direction" placeholder="Ví dụ: Đông Nam">
+                                        <form:input class="form-control" path="direction"/>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-xs-3 control-label">Hạng</label>
                                     <div class="col-xs-4">
-                                        <input class="form-control" type="text"  id="level" name="level" placeholder="Ví dụ: A, B, C">
+                                        <form:input class="form-control" path="level"/>
                                     </div>
                                 </div>
 
@@ -188,35 +187,15 @@
                                 <div class="form-group">
                                     <label class="col-xs-3 control-label">Diện tích thuê</label>
                                     <div class="col-xs-4">
-                                        <input class="form-control" type="number"  id="rentarea" name="rentarea" min="0" placeholder="m²">
+                                        <form:input class="form-control" path="areaFrom"/>
+
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-xs-3 control-label">Giá thuê</label>
                                     <div class="col-xs-4">
-                                        <input class="form-control" type="number" id="rentprice"  name="rentprice" min="0" placeholder="VNĐ">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="col-xs-3 control-label">Mô tả giá</label>
-                                    <div class="col-xs-9">
-                                        <input class="form-control" type="text" id="rentpriceescription" name="rentpriceescription" placeholder="Mô tả chi tiết giá thuê">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="col-xs-3 control-label">Phí dịch vụ</label>
-                                    <div class="col-xs-4">
-                                        <input class="form-control" type="number" id="serviceFee"  name="serviceFee" min="0" placeholder="VNĐ">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="col-xs-3 control-label">Tiền điện</label>
-                                    <div class="col-xs-4">
-                                        <input class="form-control" type="number" id="electricityFee" name="electricityFee" min="0" placeholder="VNĐ">
+                                        <form:input class="form-control" path="rentPriceFrom"/>
                                     </div>
                                 </div>
 
@@ -239,21 +218,32 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-xs-offset-3 col-xs-9">
-                                        <button type="submit" class="btn btn-primary" id="btnAddBuilding">Thêm tòa nhà</button>
-                                        <button type="reset" class="btn btn-default">Hủy</button>
+                                        <c:if test="${not empty BuildingEdit.id}">
+                                            <button type="submit" class="btn btn-primary" id="btnAddBuilding">Cập nhật
+                                                tòa nhà
+                                            </button>
+                                            <button type="reset" class="btn btn-default">Hủy</button>
+                                        </c:if>
+                                        <c:if test="${empty BuildingEdit.id}">
+                                            <button type="submit" class="btn btn-primary" id="btnAddBuilding">Thêm
+                                                tòa nhà
+                                            </button>
+                                            <button type="reset" class="btn btn-default">Hủy</button>
+                                        </c:if>
                                     </div>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
+                </form:form>
 
                 <style>
                     .form-container {
                         background: #f9f9f9;
                         padding: 20px;
                         border-radius: 8px;
-                        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
                     }
 
                     .form-section {
@@ -277,12 +267,12 @@
                     .form-control {
                         border-radius: 4px;
                         border: 1px solid #ddd;
-                        box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+                        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
                     }
 
                     .form-control:focus {
                         border-color: #3498db;
-                        box-shadow: 0 0 5px rgba(52,152,219,0.3);
+                        box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
                     }
 
                     .checkbox-inline {
@@ -294,6 +284,7 @@
                         .control-label {
                             margin-bottom: 5px;
                         }
+
                         .col-xs-3, .col-xs-9, .col-xs-4 {
                             width: 100%;
                         }

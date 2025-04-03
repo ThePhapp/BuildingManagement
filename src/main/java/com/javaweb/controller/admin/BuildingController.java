@@ -3,9 +3,11 @@ package com.javaweb.controller.admin;
 
 
 import com.javaweb.model.dto.BuildingDTO;
+import com.javaweb.model.request.BuildingSearchRequest;
 import com.javaweb.model.response.BuildingSearchResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -45,8 +47,19 @@ public class BuildingController {
     }
 
     @RequestMapping(value = "/admin/building-edit", method = RequestMethod.GET)
-    public ModelAndView buildingEdit(HttpServletRequest request) {
+    public ModelAndView buildingEdit(@ModelAttribute("BuildingEdit") BuildingSearchRequest buildingSearchRequest, HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("admin/building/edit");
+        return mav;
+    }
+
+    @RequestMapping(value = "/admin/building-edit-{id}", method = RequestMethod.GET)
+    public ModelAndView buildingEdit(@PathVariable("id") long id, HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView("admin/building/edit");
+        //xuong db tim building theo id
+        BuildingDTO buildingDTO = new BuildingDTO();
+        buildingDTO.setId(id);
+        buildingDTO.setName("ThePhap");
+        mav.addObject("BuildingEdit", buildingDTO);
         return mav;
     }
 }

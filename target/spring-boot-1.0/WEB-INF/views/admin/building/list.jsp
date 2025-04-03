@@ -209,7 +209,8 @@
                            style="margin: 3em 0 0;">
                         <thead>
                         <tr>
-                            <th class="center"><label class="pos-rel"><input type="checkbox" class="ace" name="checklist" value=""><span
+                            <th class="center"><label class="pos-rel"><input type="checkbox" class="ace"
+                                                                             name="checklist" value=""><span
                                     class="lbl"></span></label></th>
                             <th>Tên tòa nhà</th>
                             <th>Địa chỉ</th>
@@ -226,7 +227,9 @@
                         <tbody>
                         <c:forEach var="item" items="${responseList}">
                             <tr>
-                                <td class="center"><label class="pos-rel"><input type="checkbox" class="ace" name="checkList" value="${item.id}"><span
+                                <td class="center"><label class="pos-rel"><input type="checkbox" class="ace"
+                                                                                 name="checkList"
+                                                                                 value="${item.id}"><span
                                         class="lbl"></span></label></td>
                                 <td>${item.name}</td>
                                 <td>${item.address}</td>
@@ -242,7 +245,7 @@
                                         <button class="btn btn-xs btn-success" title="Giao tòa nhà"
                                                 onclick="assignmentBuilding(${item.id})"><i
                                                 class="ace-icon fa fa-check bigger-120"></i></button>
-                                        <a class="btn btn-xs btn-info" title="Sửa" href="/admin/building-edit"><i
+                                        <a class="btn btn-xs btn-info" title="Sửa" href="/admin/building-edit-${item.id}"><i
                                                 class="ace-icon fa fa-pencil bigger-120"></i></a>
                                         <button class="btn btn-xs btn-danger" title="Xóa"><i
                                                 class="ace-icon fa fa-trash-o bigger-120"></i></button>
