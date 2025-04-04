@@ -5,6 +5,8 @@ package com.javaweb.controller.admin;
 import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.request.BuildingSearchRequest;
 import com.javaweb.model.response.BuildingSearchResponse;
+import com.javaweb.service.impl.BuildingService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +20,9 @@ import java.util.List;
 
 @Controller(value="buildingControllerOfAdmin")
 public class BuildingController {
+
+    @Autowired
+    private BuildingService buildingService;
 
     @RequestMapping(value = "/admin/building-list", method = RequestMethod.GET)
     public ModelAndView buildingList(@ModelAttribute BuildingDTO buildingDTO, HttpServletRequest request) {
@@ -45,6 +50,20 @@ public class BuildingController {
         mav.addObject("responseList", responseList);
         return mav;
     }
+
+//    @RequestMapping(value = "/admin/building-list", method = RequestMethod.GET)
+//    public ModelAndView buildingList(@ModelAttribute BuildingDTO buildingDTO) {
+//        ModelAndView mav = new ModelAndView("admin/building/list");
+//        mav.addObject("modelSearch", buildingDTO);
+//
+//        // Lấy danh sách tòa nhà từ service
+//        List<BuildingDTO> responseList = buildingService.findAll();
+//        mav.addObject("responseList", responseList);
+//
+//        return mav;
+//    }
+
+
 
     @RequestMapping(value = "/admin/building-edit", method = RequestMethod.GET)
     public ModelAndView buildingEdit(@ModelAttribute("BuildingEdit") BuildingSearchRequest buildingSearchRequest, HttpServletRequest request) {
