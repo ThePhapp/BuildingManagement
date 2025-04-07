@@ -2,9 +2,12 @@ package com.javaweb.controller.admin;
 
 
 
+import com.javaweb.enums.District;
+import com.javaweb.enums.TypeCode;
 import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.request.BuildingSearchRequest;
 import com.javaweb.model.response.BuildingSearchResponse;
+import com.javaweb.service.IUserService;
 import com.javaweb.service.impl.BuildingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +26,9 @@ public class BuildingController {
 
     @Autowired
     private BuildingService buildingService;
+
+    @Autowired
+    private IUserService userService;
 
     @RequestMapping(value = "/admin/building-list", method = RequestMethod.GET)
     public ModelAndView buildingList(@ModelAttribute BuildingDTO buildingDTO, HttpServletRequest request) {
@@ -48,6 +54,9 @@ public class BuildingController {
         responseList.add(buildingSearchResponse);
         responseList.add(buildingSearchResponse1);
         mav.addObject("responseList", responseList);
+        mav.addObject("staffsList", userService.getStaffs());
+        mav.addObject("districts", District.getDistricts());
+        mav.addObject("typeCode", TypeCode.getTypeCodes());
         return mav;
     }
 
