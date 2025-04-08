@@ -13,6 +13,7 @@ public class BuildingDTO extends AbstractDTO{
     private Long numberOfBasement;
     private String direction;
     private Long level;
+    private String rentArea;
     private Long areaFrom;
     private Long areaTo;
     private Long rentPriceFrom;

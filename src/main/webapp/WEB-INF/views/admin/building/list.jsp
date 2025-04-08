@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="/common/taglib.jsp" %>
 <c:url var="buildingListURL" value="/admin/building-list"/>
+<c:url var="buildingAPI" value="/api/building"/>
 <html>
 <head>
     <title>Danh sách tòa nhà</title>
@@ -178,7 +179,7 @@
                                     </svg>
                                 </button>
                             </a>
-                            <button type="button" class="btn btn-danger" title="Xóa tòa nhà">
+                            <button type="button" class="btn btn-danger" title="Xóa tòa nhà" id="btnDeleteBuilding">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                      class="bi bi-building-fill-dash" viewBox="0 0 16 16">
                                     <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M11 12h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1 0-1"></path>
@@ -193,7 +194,7 @@
             <!-- Building List Table -->
             <div class="row">
                 <div class="col-xs-12">
-                    <table id="simple-table" class="table table-striped table-bordered table-hover"
+                    <table id="tableList" class="table table-striped table-bordered table-hover"
                            style="margin: 3em 0 0;">
                         <thead>
                         <tr>
@@ -235,7 +236,7 @@
                                                 class="ace-icon fa fa-check bigger-120"></i></button>
                                         <a class="btn btn-xs btn-info" title="Sửa" href="/admin/building-edit-${item.id}"><i
                                                 class="ace-icon fa fa-pencil bigger-120"></i></a>
-                                        <button class="btn btn-xs btn-danger" title="Xóa"><i
+                                        <button class="btn btn-xs btn-danger" title="Xóa" onclick="deleteBuilding(${item.id})"><i
                                                 class="ace-icon fa fa-trash-o bigger-120"></i></button>
                                     </div>
                                 </td>
@@ -315,6 +316,37 @@
         e.preventDefault();
         $('#listForm').submit();
     });
+
+    function deleteBuilding(id) {
+        var buildingId = [id];
+        deleteBuildings(buildingId)
+    }
+
+    $('#btnDeleteBuilding').click(function (e) {
+        e.preventDefault();
+        var data = {};
+        data['buildingId'] = $('#buildingId').val();
+        var buildingIds = $('#tableList').find('tbody input[type = checkbox]:checked').map(function () {
+            return $(this).val();
+        }).get();
+        deleteBuildings(buildingIds);
+    });
+
+    function deleteBuildings(data) {
+        $.ajax({
+            type: "DELETE",
+            url: "${buildingAPI}/" + data,
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            dataType: "JSON",
+            success: function(respond) {
+                console.log("Success");
+            },
+            error: function(respond) {
+                console.log("Fail");
+            }
+        });
+    }
 </script>
 </body>
 </html>

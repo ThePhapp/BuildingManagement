@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="/common/taglib.jsp" %>
+<c:url var="buildingAPI" value="/api/building"/>
 <html>
 <head>
     <title>Add Building</title>
@@ -111,7 +112,7 @@
                 <div class="row">
                     <form:form modelAttribute="BuildingEdit" id="listForm" method="GET">
                     <div class="col-xs-12">
-                        <form class="form-horizontal" role="form" id="form-edit">
+                        <form class="form-horizontal" role="form">
                             <div class="form-container">
                                 <!-- Building Information Section -->
                                 <h3 class="form-section">Thông tin cơ bản</h3>
@@ -128,10 +129,7 @@
                                     <div class="col-xs-4">
                                         <form:select class="form-control" path="district">
                                             <form:option value="">---Chọn quận---</form:option>
-                                            <form:option value="Quan_1">Quận 1</form:option>
-                                            <form:option value="Quan_2">Quận 2</form:option>
-                                            <form:option value="Quan_3">Quận 3</form:option>
-                                            <form:option value="Quan_4">Quận 4</form:option>
+                                            <form:options items="${districts}"/>
                                         </form:select>
                                     </div>
                                 </div>
@@ -205,34 +203,27 @@
                                 <div class="form-group">
                                     <label class="col-xs-3 control-label">Loại hình</label>
                                     <div class="col-xs-9">
-                                        <label class="checkbox-inline">
-                                            <input type="checkbox" name="typeCode" value="noi-that"> Nội thất
-                                        </label>
-                                        <label class="checkbox-inline">
-                                            <input type="checkbox" name="typeCode" value="nguyen-can"> Nguyên căn
-                                        </label>
-                                        <label class="checkbox-inline">
-                                            <input type="checkbox" name="typeCode" value="tang-tret"> Tầng trệt
-                                        </label>
+                                        <form:checkboxes items="${typeCode}" path="typeCode"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="col-xs-offset-3 col-xs-9">
                                         <c:if test="${not empty BuildingEdit.id}">
-                                            <button type="submit" class="btn btn-primary" id="btnAddBuilding">Cập nhật
+                                            <button type="submit" class="btn btn-primary" id="btnAddOrUpdateBuilding">Cập nhật
                                                 tòa nhà
                                             </button>
-                                            <button type="reset" class="btn btn-default">Hủy</button>
+                                            <button type="reset" class="btn btn-default" id="btnCancel">Hủy</button>
                                         </c:if>
                                         <c:if test="${empty BuildingEdit.id}">
-                                            <button type="submit" class="btn btn-primary" id="btnAddBuilding">Thêm
+                                            <button type="submit" class="btn btn-primary" id="btnAddOrUpdateBuilding">Thêm
                                                 tòa nhà
                                             </button>
-                                            <button type="reset" class="btn btn-default">Hủy</button>
+                                            <button type="reset" class="btn btn-default" id="btnCancel">Hủy</button>
                                         </c:if>
                                     </div>
                                 </div>
                             </div>
+                           <form:hidden path="id" id="buildingId"/>
                         </form>
                     </div>
                 </div>
@@ -298,5 +289,54 @@
         <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
     </a>
 </div><!-- /.main-container -->
+
+<!-- basic scripts -->
+
+<!--[if !IE]> -->
+<script src="assets/js/jquery.2.1.1.min.js"></script>
+
+<script>
+    $('#btnAddOrUpdateBuilding').click(function(e) {
+        e.preventDefault();
+
+        var data = {};
+        var typeCode = [];
+        var formData = $('#listForm').serializeArray();
+        $.each(formData, function(i, v){
+            if(v.name != 'typeCode') {
+                data["" + v.name + ""] = v.value;
+            } else {
+                typeCode.push(v.value);
+            }
+        })
+        data['typeCode'] = typeCode;
+
+        if (typeCode.length !== 0) {
+            addOrUpdateBuilding(data);
+        } else {
+            window.location.href = '/admin/building-edit?typeCode=required';
+        }
+    });
+
+    function addOrUpdateBuilding(data) {
+        $.ajax({
+            type: "POST",
+            url: "${buildingAPI}",
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            dataType: "JSON",
+            success: function(respond) {
+                console.log("Success");
+            },
+            error: function(respond) {
+                console.log("Fail");
+            }
+        })
+    }
+
+    $('#btnCancel').click(function() {
+        window.location.href = "/admin/building-list";
+    });
+</script>
 </body>
 </html>

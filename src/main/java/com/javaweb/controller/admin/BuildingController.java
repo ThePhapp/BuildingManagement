@@ -77,6 +77,8 @@ public class BuildingController {
     @RequestMapping(value = "/admin/building-edit", method = RequestMethod.GET)
     public ModelAndView buildingEdit(@ModelAttribute("BuildingEdit") BuildingSearchRequest buildingSearchRequest, HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("admin/building/edit");
+        mav.addObject("districts", District.getDistricts());
+        mav.addObject("typeCode", TypeCode.getTypeCodes());
         return mav;
     }
 
@@ -87,7 +89,10 @@ public class BuildingController {
         BuildingDTO buildingDTO = new BuildingDTO();
         buildingDTO.setId(id);
         buildingDTO.setName("ThePhap");
+        buildingDTO.setFloorArea(100L);
+        buildingDTO.setDistrict("HoanKiem");
         mav.addObject("BuildingEdit", buildingDTO);
+        mav.addObject("typeCode", TypeCode.getTypeCodes());
         return mav;
     }
 }
