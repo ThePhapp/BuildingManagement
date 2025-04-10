@@ -54,6 +54,17 @@ public class BuildingEntity {
     @Column(name = "brokeragefee")
     private Long brokerageFee;
 
+    @OneToMany(mappedBy = "buildingId", fetch = FetchType.LAZY)
+    private List<AssignmentBuildingEntity> buildingId = new ArrayList<>();
+
+    public List<AssignmentBuildingEntity> getBuildingId() {
+        return buildingId;
+    }
+
+    public void setBuildingId(List<AssignmentBuildingEntity> buildingId) {
+        this.buildingId = buildingId;
+    }
+
     public Long getId() {
         return id;
     }

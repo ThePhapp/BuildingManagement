@@ -268,14 +268,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td class="center"><input type="checkbox" id="checkbox_1" value="1"></td>
-                        <td>Nguyễn Văn A</td>
-                    </tr>
-                    <tr>
-                        <td class="center"><input type="checkbox" id="checkbox_2" value="2"></td>
-                        <td>Trần Thị B</td>
-                    </tr>
+
                     </tbody>
                 </table>
                 <input type="hidden" id="buildingId" name="buildingId" value="">
@@ -296,11 +289,34 @@
 <script>
     function assignmentBuilding(buildingId) {
         $("#buildingId").val(buildingId);
+        loadStaffList(buildingId);
         $("#assignmentBuildingModal").modal("show");
     }
-</script>
 
-<script>
+    function loadStaffList(buildingId) {
+        $.ajax({
+            type: "GET",
+            url: "${buildingAPI}/" + buildingId + "/staffs",
+            // data: JSON.stringify(data),
+            // contentType: "application/json",
+            dataType: "JSON",
+            success: function(response) {
+                var rows = "";
+                $.each(response.data, function (index, item) {
+                    rows += "<tr>";
+                    rows += "<td class='center'><label class='pos-rel'><input type='checkbox' class='ace' id='check_box' value=" + item.staffId + item.checked + "/</td>";
+                    rows += "<td>" + item.fullName + "</td>";
+                    rows += "</tr>";
+                });
+                $('#staffList tbody').html(rows);
+            },
+            error: function(response) {
+                console.log("Fail");
+                window.location.href = "/admin/building-list?message=error";
+            }
+        });
+    }
+
     $('#btnassisgnmentBuilding').click(function (e) {
         e.preventDefault();
         var data = {};

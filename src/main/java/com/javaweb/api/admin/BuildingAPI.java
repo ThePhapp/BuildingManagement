@@ -1,6 +1,9 @@
 package com.javaweb.api.admin;
 
 import com.javaweb.model.dto.BuildingDTO;
+import com.javaweb.model.response.ResponseDTO;
+import com.javaweb.service.impl.BuildingService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -8,6 +11,9 @@ import java.util.List;
 @RestController("buildingAPIOfAdmin")
 @RequestMapping("/api/building")
 public class BuildingAPI {
+
+    @Autowired
+    private BuildingService buildingService;
 
     @PostMapping
     public BuildingDTO addOrUpdateBuilding(@RequestBody BuildingDTO buildingDTO) {
@@ -19,5 +25,11 @@ public class BuildingAPI {
     public void deleteBuilding(@PathVariable List<Long> ids) {
         // Logic to delete building from db
         System.out.println("Deleted buildings with ids: " + ids);
+    }
+
+    @GetMapping("/{id}/staffs")
+    public ResponseDTO loadStaff(@PathVariable Long id) {
+        ResponseDTO result = buildingService.listStaffs(id);
+        return result;
     }
 }
