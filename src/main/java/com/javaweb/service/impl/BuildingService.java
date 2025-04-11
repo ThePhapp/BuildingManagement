@@ -39,8 +39,11 @@ public class BuildingService implements IBuildingService {
 
     @Override
     public ResponseDTO listStaffs(Long id) {
-        BuildingEntity buildingEntity = buildingRepository.findById(id).get();
         List<UserEntity> staffs = userRepository.findByStatusAndRoles_Code(1, "STAFF");
+        BuildingEntity buildingEntity = buildingRepository.findById(id).get();
+        if (buildingEntity == null) {
+            System.out.println("Building not found");
+        }
         List<StaffResponseDTO> responseDTOS = new ArrayList<>();
         List<AssignmentBuildingEntity> assignmentBuildingEntities = buildingEntity.getBuildingId();
         ResponseDTO result = new ResponseDTO();
