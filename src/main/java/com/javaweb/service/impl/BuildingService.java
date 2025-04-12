@@ -56,7 +56,6 @@ public class BuildingService implements IBuildingService {
                 Long staffId = it1.getStaffId().getId();
                 if (staffId.equals(it.getId())) {
                     staffDTO.setChecked("checked");
-                    break;
                 } else {
                     staffDTO.setChecked("");
                 }

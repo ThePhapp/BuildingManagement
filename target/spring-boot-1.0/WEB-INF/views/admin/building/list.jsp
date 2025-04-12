@@ -234,9 +234,11 @@
                                         <button class="btn btn-xs btn-success" title="Giao tòa nhà"
                                                 onclick="assignmentBuilding(${item.id})"><i
                                                 class="ace-icon fa fa-check bigger-120"></i></button>
-                                        <a class="btn btn-xs btn-info" title="Sửa" href="/admin/building-edit-${item.id}"><i
+                                        <a class="btn btn-xs btn-info" title="Sửa"
+                                           href="/admin/building-edit-${item.id}"><i
                                                 class="ace-icon fa fa-pencil bigger-120"></i></a>
-                                        <button class="btn btn-xs btn-danger" title="Xóa" onclick="deleteBuilding(${item.id})"><i
+                                        <button class="btn btn-xs btn-danger" title="Xóa"
+                                                onclick="deleteBuilding(${item.id})"><i
                                                 class="ace-icon fa fa-trash-o bigger-120"></i></button>
                                     </div>
                                 </td>
@@ -271,7 +273,7 @@
 
                     </tbody>
                 </table>
-                <input type="hidden" id="buildingId" name="buildingId" value="">
+                <input type="hidden" id="buildingId" name="buildingId">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="btnAssignmentBuilding">Giao tòa nhà</button>
@@ -300,24 +302,24 @@
             // data: JSON.stringify(data),
             // contentType: "application/json",
             dataType: "JSON",
-            success: function(response) {
+            success: function (response) {
                 var rows = "";
                 $.each(response.data, function (index, item) {
                     rows += "<tr>";
-                    rows += "<td class='center'><label class='pos-rel'><input type='checkbox' class='ace' id='check_box' value=" + item.staffId + item.checked + "/</td>";
-                    rows += "<td>" + item.fullName + "</td>";
+                    rows += '<td class="text-center"><input type="checkbox" value="' + item.staffId + '" id="checkbox_' + item.staffId + '" ' + item.checked + '>' + '</td>';
+                    rows += "<td class='text-center'>" + item.fullName + "</td>";
                     rows += "</tr>";
                 });
                 $('#staffList tbody').html(rows);
             },
-            error: function(response) {
+            error: function (response) {
                 console.log("Fail");
                 window.location.href = "/admin/building-list?message=error";
             }
         });
     }
 
-    $('#btnassisgnmentBuilding').click(function (e) {
+    $('#btnAssignmentBuilding').click(function (e) {
         e.preventDefault();
         var data = {};
         data['buildingId'] = $('#buildingId').val();
@@ -325,8 +327,32 @@
             return $(this).val();
         }).get();
         data['staffs'] = staffs;
+        if (data['staffs'].length !== 0) {
+            assignment(data);
+            $("#assignmentBuildingModal").modal("hide");
+        } else {
+            alert("Vui lòng chọn nhân viên để giao tòa nhà.");
+            return;
+        }
         console.log("OK");
     });
+
+    function assignment(data) {
+        $.ajax({
+        type: "POST",
+        url: "${buildingAPI}/assignment",
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        dataType: "JSON",
+        success: function (respond) {
+            console.log("Success");
+        },
+        error: function (respond) {
+            console.log("Fail");
+            window.location.href = "/admin/building-list?message=error";
+        }
+    });
+    }
 
     $('#btnSearchBuilding').click(function (e) {
         e.preventDefault();
@@ -355,10 +381,10 @@
             data: JSON.stringify(data),
             contentType: "application/json",
             dataType: "JSON",
-            success: function(respond) {
+            success: function (respond) {
                 console.log("Success");
             },
-            error: function(respond) {
+            error: function (respond) {
                 console.log("Fail");
             }
         });

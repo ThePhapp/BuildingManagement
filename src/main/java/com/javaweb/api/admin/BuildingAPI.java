@@ -1,5 +1,6 @@
 package com.javaweb.api.admin;
 
+import com.javaweb.model.dto.AssignmentBuildingDTO;
 import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.response.ResponseDTO;
 import com.javaweb.service.impl.BuildingService;
@@ -31,5 +32,11 @@ public class BuildingAPI {
     public ResponseDTO loadStaff(@PathVariable Long id) {
         ResponseDTO result = buildingService.listStaffs(id);
         return result;
+    }
+
+    @PostMapping("assignment")
+    public void updateAssignmentBuilding(@RequestBody AssignmentBuildingDTO assignmentBuildingDTO) {
+        // Logic to update assignment in db
+        System.out.println("Updated assignments: ");
     }
 }

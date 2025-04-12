@@ -4,6 +4,7 @@ public class ResponseDTO {
     private Object data;
     private String message;
     private String detail;
+    private String checked;
 
     public Object getData() {
         return data;
@@ -27,5 +28,13 @@ public class ResponseDTO {
 
     public void setDetail(String detail) {
         this.detail = detail;
+    }
+
+    public String getChecked() {
+        return checked;
+    }
+
+    public void setChecked(String checked) {
+        this.checked = checked;
     }
 }
