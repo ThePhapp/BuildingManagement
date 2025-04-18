@@ -4,6 +4,7 @@ import com.javaweb.entity.AssignmentBuildingEntity;
 import com.javaweb.entity.BuildingEntity;
 import com.javaweb.entity.UserEntity;
 import com.javaweb.model.dto.BuildingDTO;
+import com.javaweb.model.response.BuildingSearchResponse;
 import com.javaweb.model.response.ResponseDTO;
 import com.javaweb.model.response.StaffResponseDTO;
 import com.javaweb.repository.BuildingRepository;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,17 +26,8 @@ public class BuildingService implements IBuildingService {
     private UserRepository userRepository;
 
     @Override
-    public List<BuildingDTO> findAll() {
-        List<BuildingEntity> entities = buildingRepository.findAll();
+    public List<BuildingSearchResponse> findAll(Map<String, Object> param, List<String> typeCode) {
 
-        // Chuyển đổi từ Entity sang DTO
-        return entities.stream().map(entity -> {
-            BuildingDTO dto = new BuildingDTO();
-            dto.setId(entity.getId());
-            dto.setName(entity.getName());
-            dto.setManagerName(entity.getManagerName());
-            return dto;
-        }).collect(Collectors.toList());
     }
 
     @Override
