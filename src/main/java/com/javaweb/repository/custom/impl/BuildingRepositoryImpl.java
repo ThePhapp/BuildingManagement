@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 @Repository
 @PropertySource("classpath:application.properties")
 public class BuildingRepositoryImpl implements BuildingRepositoryCustom {
+
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -27,22 +28,22 @@ public class BuildingRepositoryImpl implements BuildingRepositoryCustom {
     }
 
     public void querySimple(BuildingSearchBuilder builder, StringBuilder where) {
-        try{
+        try {
             Field[] fields = BuildingSearchBuilder.class.getDeclaredFields();
-            for(Field item : fields) {
-               item.setAccessible(true);
+            for (Field item : fields) {
+                item.setAccessible(true);
                 String fieldName = item.getName();
-                if(!fieldName.equals("staffId") && !fieldName.equals("typeCode") && !fieldName.startsWith("rentArea") && !fieldName.startsWith("rentPrice")) {
+                if (!fieldName.equals("staffId") && !fieldName.equals("typeCode")
+                        && !fieldName.startsWith("rentArea") && !fieldName.startsWith("rentPrice")) {
                     Object value = item.get(builder);
-                    if(value != null) {
-                        if(item.getType().getName().equals("java.lang.String")) {
-                            where.append(" AND b."+ fieldName.toLowerCase() +" like '%"+value+"%'");
-                        }
-                        else if(item.getType().getName().equals("java.lang.Integer")) {
-                            where.append(" AND b." +fieldName.toLowerCase() + " = "+ value);
-                        }
-                        else if(item.getType().getName().equals("java.lang.Long")) {
-                            where.append(" AND b." +fieldName.toLowerCase() + " = "+ value);
+                    if (value != null) {
+                        if (item.getType().getName().equals("java.lang.String")) {
+                            where.append(" AND b.").append(fieldName.toLowerCase())
+                                    .append(" LIKE '%").append(value).append("%'");
+                        } else if (item.getType().getName().equals("java.lang.Integer")
+                                || item.getType().getName().equals("java.lang.Long")) {
+                            where.append(" AND b.").append(fieldName.toLowerCase())
+                                    .append(" = ").append(value);
                         }
                     }
                 }
@@ -58,45 +59,52 @@ public class BuildingRepositoryImpl implements BuildingRepositoryCustom {
         Long areaFrom = builder.getRentAreaFrom();
         Long areaTo = builder.getRentAreaTo();
         Long staffId = builder.getStaffId();
-        if(rentPriceFrom != null) {
-            where.append(" AND b.rentprice >= "+rentPriceFrom);
+
+        if (rentPriceFrom != null) {
+            where.append(" AND b.rentprice >= ").append(rentPriceFrom);
         }
-        if(rentPriceTo != null) {
-            where.append(" AND b.rentprice <= "+rentPriceTo);
+        if (rentPriceTo != null) {
+            where.append(" AND b.rentprice <= ").append(rentPriceTo);
         }
-        if((areaFrom!=null)||areaTo!=null) {
-            where.append(" AND EXISTS (SELECT * FROM rentarea r WHERE b.id = r.buildingid ");
-            if(areaFrom != null) {
-                where.append(" AND r.value >= "+ areaFrom);
+        if (areaFrom != null || areaTo != null) {
+            where.append(" AND EXISTS (SELECT * FROM rentarea r WHERE r.buildingid = b.id ");
+            if (areaFrom != null) {
+                where.append(" AND r.value >= ").append(areaFrom);
             }
-            if(areaTo !=null) {
-                where.append(" AND r.value <= "+ areaTo);
+            if (areaTo != null) {
+                where.append(" AND r.value <= ").append(areaTo);
             }
-            where.append(") ");
+            where.append(")");
         }
-        if(staffId!=null) {
-            where.append(" AND assignmentbuilding.staffid = "+ staffId);
+        if (staffId != null) {
+            where.append(" AND assignmentbuilding.staffid = ").append(staffId);
         }
-        List<String>typeCode = builder.getTypeCode();
-        //java-8
-        if(typeCode!=null && typeCode.size()!=0) {
+
+        List<String> typeCode = builder.getTypeCode();
+        if (typeCode != null && !typeCode.isEmpty()) {
             where.append(" AND (");
-            String query = typeCode.stream().map(it -> "type LIKE '%" + it +"%'").collect(Collectors.joining(" OR "));
-            where.append(query);
-            where.append(" ) ");
+            String typeQuery = typeCode.stream()
+                    .map(code -> "b.type LIKE '%" + code + "%'")
+                    .collect(Collectors.joining(" OR "));
+            where.append(typeQuery).append(")");
         }
     }
 
-     @Override
-     public List<BuildingEntity> findAll(BuildingSearchBuilder buildingSearchBuilder) {
-         StringBuilder sql = new StringBuilder("SELECT DISTINCT b* FROM building AS b");
-         queryJoinTable(buildingSearchBuilder, sql);
-         StringBuilder where = new StringBuilder(" WHERE 1=1 ");
-         querySimple(buildingSearchBuilder, where);
-         querySpecial(buildingSearchBuilder, where);
-         sql.append(" GROUP BY b.id");
-         sql.append(where);
-         Query query = entityManager.createNativeQuery(sql.toString(), BuildingEntity.class);
-         return query.getResultList();
-     }
+    @Override
+    public List<BuildingEntity> findAll(BuildingSearchBuilder builder) {
+        StringBuilder sql = new StringBuilder("SELECT b.* FROM building b ");
+        StringBuilder join = new StringBuilder();
+        queryJoinTable(builder, join);
+
+        StringBuilder where = new StringBuilder(" WHERE 1=1 ");
+        querySimple(builder, where);
+        querySpecial(builder, where);
+
+        sql.append(join);
+        sql.append(where);
+        sql.append(" GROUP BY b.id");
+
+        Query query = entityManager.createNativeQuery(sql.toString(), BuildingEntity.class);
+        return query.getResultList();
+    }
 }

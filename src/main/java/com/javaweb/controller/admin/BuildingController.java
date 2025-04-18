@@ -2,6 +2,7 @@ package com.javaweb.controller.admin;
 
 
 
+import com.javaweb.constant.SystemConstant;
 import com.javaweb.enums.District;
 import com.javaweb.enums.TypeCode;
 import com.javaweb.model.dto.BuildingDTO;
@@ -9,17 +10,16 @@ import com.javaweb.model.request.BuildingSearchRequest;
 import com.javaweb.model.response.BuildingSearchResponse;
 import com.javaweb.service.IUserService;
 import com.javaweb.service.impl.BuildingService;
+import com.javaweb.utils.DisplayTagUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller(value="buildingControllerOfAdmin")
 public class BuildingController {
@@ -30,35 +30,18 @@ public class BuildingController {
     @Autowired
     private IUserService userService;
 
-    @RequestMapping(value = "/admin/building-list", method = RequestMethod.GET)
-    public ModelAndView buildingList(@ModelAttribute BuildingDTO buildingDTO, HttpServletRequest request) {
-        ModelAndView mav = new ModelAndView("admin/building/list");
-        mav.addObject("modelSearch", buildingDTO);
-        //Xu ly lay du lieu tu database
-
-        List<BuildingSearchResponse> responseList = new ArrayList<>();
-        BuildingSearchResponse buildingSearchResponse = new BuildingSearchResponse();
-        buildingSearchResponse.setId(3L);
-        buildingSearchResponse.setName("ThePhap");
-        buildingSearchResponse.setAddress("HaNoi");
-        buildingSearchResponse.setNumberOfBasement(2L);
-        buildingSearchResponse.setManagerName("TranThe");
-
-        BuildingSearchResponse buildingSearchResponse1 = new BuildingSearchResponse();
-        buildingSearchResponse1.setId(4L);
-        buildingSearchResponse1.setName("ThePhap123");
-        buildingSearchResponse1.setAddress("HaNoi1");
-        buildingSearchResponse1.setNumberOfBasement(2L);
-        buildingSearchResponse1.setManagerName("TranThe1");
-
-        responseList.add(buildingSearchResponse);
-        responseList.add(buildingSearchResponse1);
-        mav.addObject("responseList", responseList);
-        mav.addObject("staffsList", userService.getStaffs());
-        mav.addObject("districts", District.getDistricts());
-        mav.addObject("typeCode", TypeCode.getTypeCodes());
-        return mav;
-    }
+//    @RequestMapping(value = "/admin/building-list", method = RequestMethod.GET)
+//    public ModelAndView buildingList(@ModelAttribute BuildingDTO buildingDTO, HttpServletRequest request) {
+//        ModelAndView mav = new ModelAndView("admin/building/list");
+//        mav.addObject("modelSearch", buildingDTO);
+//        //Xu ly lay du lieu tu database
+//
+//        List<BuildingSearchResponse> responseList = buildingService.findAll()
+//        mav.addObject("staffsList", userService.getStaffs());
+//        mav.addObject("districts", District.getDistricts());
+//        mav.addObject("typeCode", TypeCode.getTypeCodes());
+//        return mav;
+//    }
 
 //    @RequestMapping(value = "/admin/building-list", method = RequestMethod.GET)
 //    public ModelAndView buildingList(@ModelAttribute BuildingDTO buildingDTO) {
@@ -72,7 +55,21 @@ public class BuildingController {
 //        return mav;
 //    }
 
-
+    @RequestMapping(value="/admin/building-list", method= RequestMethod.GET)
+    public ModelAndView buildingList(@ModelAttribute(SystemConstant.MODEL) BuildingDTO model, @ModelAttribute("modelSearch")BuildingDTO buildingDTO,
+                                     @RequestParam Map<String, Object> params,
+                                     @RequestParam(value = "typeCode", required = false) List<String> type,
+                                     HttpServletRequest request, @ModelAttribute BuildingSearchRequest buildingSearchRequest){
+        ModelAndView mav = new ModelAndView("admin/building/list");
+        mav.addObject("staffsList", userService.getStaffs());
+        mav.addObject("districts", District.getDistricts());
+        mav.addObject("typeCode", TypeCode.getTypeCodes());
+        DisplayTagUtils.of(request, model);
+        List<BuildingSearchResponse> responseList = buildingService.findAll(params, type);
+        mav.addObject("responseList", responseList);
+        mav.addObject(SystemConstant.MODEL, model);
+        return mav;
+    }
 
     @RequestMapping(value = "/admin/building-edit", method = RequestMethod.GET)
     public ModelAndView buildingEdit(@ModelAttribute("BuildingEdit") BuildingSearchRequest buildingSearchRequest, HttpServletRequest request) {

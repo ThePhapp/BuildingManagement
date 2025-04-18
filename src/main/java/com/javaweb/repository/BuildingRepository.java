@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
+//@Repository
 public interface BuildingRepository extends JpaRepository<BuildingEntity, Long> {
     List<BuildingEntity> findAll();
 }

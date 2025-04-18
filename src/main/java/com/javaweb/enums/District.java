@@ -4,16 +4,15 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public enum District {
-    QUAN_1("Nam Tu Liem"),
-    QUAN_2("Cau Giay"),
-    QUAN_3("Hoan Kiem"),
-    QUAN_4("Ba Dinh"),
-    QUAN_5("Hai Ba Trung"),
-    QUAN_6("Dong Da"),
-    QUAN_7("Thanh Xuan"),
-    QUAN_8("Long Bien"),
-    QUAN_9("Hoang Mai"),
-    ;
+    QUAN_1 ("Quận 1"),
+    QUAN_2 ("Quận 2"),
+    QUAN_3 ("Quận 3"),
+    QUAN_4 ("Quận 4"),
+    QUAN_5 ("Quận 5"),
+    QUAN_6 ("Quận 6"),
+    QUAN_7 ("Quận 7"),
+    QUAN_8 ("Quận 8"),
+    NULL("null");
 
     private final String districtName;
 

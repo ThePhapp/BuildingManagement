@@ -1,5 +1,7 @@
 package com.javaweb.service.impl;
 
+import com.javaweb.builder.BuildingSearchBuilder;
+import com.javaweb.converter.BuildingSearchBuilderConverter;
 import com.javaweb.entity.AssignmentBuildingEntity;
 import com.javaweb.entity.BuildingEntity;
 import com.javaweb.entity.UserEntity;
@@ -9,6 +11,7 @@ import com.javaweb.model.response.ResponseDTO;
 import com.javaweb.model.response.StaffResponseDTO;
 import com.javaweb.repository.BuildingRepository;
 import com.javaweb.repository.UserRepository;
+import com.javaweb.repository.custom.BuildingRepositoryCustom;
 import com.javaweb.service.IBuildingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,11 +26,24 @@ public class BuildingService implements IBuildingService {
     @Autowired
     private BuildingRepository buildingRepository;
     @Autowired
+    private BuildingRepositoryCustom buildingRepositoryCustom;
+    @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private BuildingSearchBuilderConverter buildingSearchBuilderConverter;
 
     @Override
     public List<BuildingSearchResponse> findAll(Map<String, Object> param, List<String> typeCode) {
-
+        BuildingSearchBuilder builder = buildingSearchBuilderConverter.toBuildingSearchBuilder(param, typeCode);
+        List<BuildingEntity> buildingEntities = buildingRepositoryCustom.findAll(builder);
+        List<BuildingSearchResponse> result = new ArrayList<>();
+        for (BuildingEntity it : buildingEntities) {
+            BuildingSearchResponse buildingSearchResponse = new BuildingSearchResponse();
+            buildingSearchResponse.setId(it.getId());
+            buildingSearchResponse.setName(it.getName());
+            result.add(buildingSearchResponse);
+        }
+        return result;
     }
 
     @Override
