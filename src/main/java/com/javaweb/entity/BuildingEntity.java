@@ -14,6 +14,16 @@ public class BuildingEntity {
     @Column(name = "name")
     private String name;
 
+    @OneToMany(mappedBy = "building", fetch = FetchType.LAZY)
+    private List<RentAreaEntity> rentAreas = new ArrayList<>();
+
+    public List<RentAreaEntity> getRentAreas() {
+        return rentAreas;
+    }
+    public void setRentAreas(List<RentAreaEntity> rentAreas) {
+        this.rentAreas = rentAreas;
+    }
+
     @OneToMany(mappedBy = "buildingId", fetch = FetchType.LAZY)
     private List<AssignmentBuildingEntity> buildingId = new ArrayList<>();
 

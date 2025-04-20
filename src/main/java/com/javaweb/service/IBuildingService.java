@@ -9,4 +9,5 @@ import java.util.Map;
 public interface IBuildingService {
     List<BuildingSearchResponse> findAll(Map<String, Object> params, List<String> rentType);
     ResponseDTO listStaffs(Long id);
+    void deleteBuilding(List<Long> ids);
 }

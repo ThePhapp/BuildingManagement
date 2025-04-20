@@ -4,17 +4,22 @@ import com.javaweb.builder.BuildingSearchBuilder;
 import com.javaweb.converter.BuildingSearchBuilderConverter;
 import com.javaweb.entity.AssignmentBuildingEntity;
 import com.javaweb.entity.BuildingEntity;
+import com.javaweb.entity.RentAreaEntity;
 import com.javaweb.entity.UserEntity;
 import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.response.BuildingSearchResponse;
 import com.javaweb.model.response.ResponseDTO;
 import com.javaweb.model.response.StaffResponseDTO;
+import com.javaweb.repository.AssignmentBuildingRepository;
 import com.javaweb.repository.BuildingRepository;
+import com.javaweb.repository.ListRentAreaRepository;
 import com.javaweb.repository.UserRepository;
 import com.javaweb.repository.custom.BuildingRepositoryCustom;
+import com.javaweb.repository.custom.ListRentAreaRepositoryCustom;
 import com.javaweb.service.IBuildingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +36,12 @@ public class BuildingService implements IBuildingService {
     private UserRepository userRepository;
     @Autowired
     private BuildingSearchBuilderConverter buildingSearchBuilderConverter;
+    @Autowired
+    private ListRentAreaRepositoryCustom listRentAreaRepositoryCustom;
+    @Autowired
+    private ListRentAreaRepository listRentAreaRepository;
+    @Autowired
+    private AssignmentBuildingRepository assignmentBuildingRepository;
 
     @Override
     public List<BuildingSearchResponse> findAll(Map<String, Object> param, List<String> typeCode) {
@@ -75,5 +86,23 @@ public class BuildingService implements IBuildingService {
         result.setMessage("Thành công");
 
         return result;
+    }
+
+    @Override
+    @Transactional
+    public void deleteBuilding(List<Long> ids) {
+        for(Long list : ids) {
+           List<RentAreaEntity> rentAreaEntities = listRentAreaRepositoryCustom.listRentArea(list);
+            List<AssignmentBuildingEntity> results = assignmentBuildingRepository.findAll();
+           for (RentAreaEntity it : rentAreaEntities) {
+               listRentAreaRepository.deleteByBuildingId(it.getId());
+           }
+           for (AssignmentBuildingEntity it : results) {
+               if (it.getBuildingId().getId().equals(list)) {
+                   assignmentBuildingRepository.deleteById(it.getId());
+               }
+           }
+              buildingRepository.deleteById(list);
+        }
     }
 }

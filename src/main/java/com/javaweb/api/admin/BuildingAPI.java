@@ -24,8 +24,7 @@ public class BuildingAPI {
 
     @DeleteMapping("/{ids}")
     public void deleteBuilding(@PathVariable List<Long> ids) {
-        // Logic to delete building from db
-        System.out.println("Deleted buildings with ids: " + ids);
+        buildingService.deleteBuilding(ids);
     }
 
     @GetMapping("/{id}/staffs")
