@@ -4,7 +4,7 @@ import com.javaweb.entity.RentAreaEntity;
 import com.javaweb.repository.custom.ListRentAreaRepositoryCustom;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ListRentAreaRepository extends JpaRepository<RentAreaEntity, Long> {
+public interface ListRentAreaRepository extends JpaRepository<RentAreaEntity, Long>, ListRentAreaRepositoryCustom {
     RentAreaEntity deleteByBuildingId(Long id);
 
 }

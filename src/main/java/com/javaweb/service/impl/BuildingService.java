@@ -37,8 +37,6 @@ public class BuildingService implements IBuildingService {
     @Autowired
     private BuildingSearchBuilderConverter buildingSearchBuilderConverter;
     @Autowired
-    private ListRentAreaRepositoryCustom listRentAreaRepositoryCustom;
-    @Autowired
     private ListRentAreaRepository listRentAreaRepository;
     @Autowired
     private AssignmentBuildingRepository assignmentBuildingRepository;
@@ -92,11 +90,11 @@ public class BuildingService implements IBuildingService {
     @Transactional
     public void deleteBuilding(List<Long> ids) {
         for(Long list : ids) {
-           List<RentAreaEntity> rentAreaEntities = listRentAreaRepositoryCustom.listRentArea(list);
+           List<RentAreaEntity> rentAreaEntities = listRentAreaRepository.listRentArea(list);
+            for (RentAreaEntity it : rentAreaEntities) {
+                listRentAreaRepository.deleteById(it.getId());
+            }
             List<AssignmentBuildingEntity> results = assignmentBuildingRepository.findAll();
-           for (RentAreaEntity it : rentAreaEntities) {
-               listRentAreaRepository.deleteByBuildingId(it.getId());
-           }
            for (AssignmentBuildingEntity it : results) {
                if (it.getBuildingId().getId().equals(list)) {
                    assignmentBuildingRepository.deleteById(it.getId());

@@ -11,7 +11,6 @@ import javax.persistence.Query;
 import java.util.List;
 
 @Repository
-@PropertySource("classpath:application.properties")
 public class ListRentAreaRepositoryImpl implements ListRentAreaRepositoryCustom {
     @PersistenceContext
     private EntityManager entityManager;
