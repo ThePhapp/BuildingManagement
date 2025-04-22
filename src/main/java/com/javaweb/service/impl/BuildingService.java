@@ -1,6 +1,7 @@
 package com.javaweb.service.impl;
 
 import com.javaweb.builder.BuildingSearchBuilder;
+import com.javaweb.converter.BuildingConverter;
 import com.javaweb.converter.BuildingSearchBuilderConverter;
 import com.javaweb.entity.AssignmentBuildingEntity;
 import com.javaweb.entity.BuildingEntity;
@@ -17,6 +18,7 @@ import com.javaweb.repository.UserRepository;
 import com.javaweb.repository.custom.BuildingRepositoryCustom;
 import com.javaweb.repository.custom.ListRentAreaRepositoryCustom;
 import com.javaweb.service.IBuildingService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,8 +33,6 @@ public class BuildingService implements IBuildingService {
     @Autowired
     private BuildingRepository buildingRepository;
     @Autowired
-    private BuildingRepositoryCustom buildingRepositoryCustom;
-    @Autowired
     private UserRepository userRepository;
     @Autowired
     private BuildingSearchBuilderConverter buildingSearchBuilderConverter;
@@ -40,11 +40,15 @@ public class BuildingService implements IBuildingService {
     private ListRentAreaRepository listRentAreaRepository;
     @Autowired
     private AssignmentBuildingRepository assignmentBuildingRepository;
+    @Autowired
+    private ModelMapper modelMapper;
+    @Autowired
+    private BuildingConverter buildingConverter;
 
     @Override
     public List<BuildingSearchResponse> findAll(Map<String, Object> param, List<String> typeCode) {
         BuildingSearchBuilder builder = buildingSearchBuilderConverter.toBuildingSearchBuilder(param, typeCode);
-        List<BuildingEntity> buildingEntities = buildingRepositoryCustom.findAll(builder);
+        List<BuildingEntity> buildingEntities = buildingRepository.findAll(builder);
         List<BuildingSearchResponse> result = new ArrayList<>();
         for (BuildingEntity it : buildingEntities) {
             BuildingSearchResponse buildingSearchResponse = new BuildingSearchResponse();
@@ -102,5 +106,25 @@ public class BuildingService implements IBuildingService {
            }
               buildingRepository.deleteById(list);
         }
+    }
+
+    @Override
+    @Transactional
+    public BuildingDTO insertOrUpdateBuilding(BuildingDTO buildingDTO) {
+        BuildingEntity result = modelMapper.map(buildingDTO, BuildingEntity.class);
+//        String[] list = buildingDTO.getRentAreas().split(",");
+//        if (result.getId() != null) {
+//            List<RentAreaEntity> rentAreaEntities = listRentAreaRepository.listRentArea(buildingDTO.getId());
+//            for (RentAreaEntity it : rentAreaEntities) {
+//                listRentAreaRepository.deleteById(it.getId());
+//            }
+//        }
+//        for (String it : list) {
+            RentAreaEntity rentAreaEntity = new RentAreaEntity();
+            rentAreaEntity.setValue(500L);
+            rentAreaEntity.setBuilding(result);
+            listRentAreaRepository.save(rentAreaEntity);
+//        }
+        return buildingConverter.toBuildingDTO(buildingRepository.save(result));
     }
 }

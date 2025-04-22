@@ -113,11 +113,11 @@
                                             <div class="col-xs-12">
                                                 <div class="col-xs-3">
                                                     <label>Diện tích từ</label>
-                                                    <form:input class="form-control" path="areaFrom" type="number"/>
+                                                    <form:input class="form-control" path="rentAreaFrom" type="number"/>
                                                 </div>
                                                 <div class="col-xs-3">
                                                     <label>Diện tích đến</label>
-                                                    <form:input class="form-control" path="areaTo" type="number"/>
+                                                    <form:input class="form-control" path="rentAreaTo" type="number"/>
                                                 </div>
                                                 <div class="col-xs-3">
                                                     <label>Giá thuê từ</label>

@@ -19,7 +19,7 @@ public class BuildingAPI {
     @PostMapping
     public BuildingDTO addOrUpdateBuilding(@RequestBody BuildingDTO buildingDTO) {
         // Logic to add or update building in db
-        return buildingDTO;
+        return buildingService.insertOrUpdateBuilding(buildingDTO);
     }
 
     @DeleteMapping("/{ids}")

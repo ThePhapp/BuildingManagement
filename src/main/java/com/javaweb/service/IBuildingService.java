@@ -1,5 +1,6 @@
 package com.javaweb.service;
 
+import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.response.BuildingSearchResponse;
 import com.javaweb.model.response.ResponseDTO;
 
@@ -10,4 +11,5 @@ public interface IBuildingService {
     List<BuildingSearchResponse> findAll(Map<String, Object> params, List<String> rentType);
     ResponseDTO listStaffs(Long id);
     void deleteBuilding(List<Long> ids);
+    BuildingDTO insertOrUpdateBuilding(BuildingDTO buildingDTO);
 }

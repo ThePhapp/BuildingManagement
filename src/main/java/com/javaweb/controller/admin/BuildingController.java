@@ -86,7 +86,7 @@ public class BuildingController {
         BuildingDTO buildingDTO = new BuildingDTO();
         buildingDTO.setId(id);
         buildingDTO.setName("ThePhap");
-        buildingDTO.setFloorArea(100L);
+        buildingDTO.setFloorArea(100);
         buildingDTO.setDistrict("HoanKiem");
         mav.addObject("BuildingEdit", buildingDTO);
         mav.addObject("typeCode", TypeCode.getTypeCodes());
