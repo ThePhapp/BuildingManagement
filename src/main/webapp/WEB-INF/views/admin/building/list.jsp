@@ -251,7 +251,7 @@
         </div>
     </div>
 </div>
-</div>
+
 
 <!-- Assignment Modal -->
 <div class="modal fade" id="assignmentBuildingModal" role="dialog">

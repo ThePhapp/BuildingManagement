@@ -10,5 +10,4 @@ import java.util.List;
 
 //@Repository
 public interface BuildingRepository extends JpaRepository<BuildingEntity, Long>, BuildingRepositoryCustom{
-    List<BuildingEntity> findAll();
 }

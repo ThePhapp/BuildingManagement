@@ -7,10 +7,12 @@ import com.javaweb.entity.AssignmentBuildingEntity;
 import com.javaweb.entity.BuildingEntity;
 import com.javaweb.entity.RentAreaEntity;
 import com.javaweb.entity.UserEntity;
+import com.javaweb.enums.TypeCode;
 import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.response.BuildingSearchResponse;
 import com.javaweb.model.response.ResponseDTO;
 import com.javaweb.model.response.StaffResponseDTO;
+import com.javaweb.model.response.TypeCodeResponseDTO;
 import com.javaweb.repository.AssignmentBuildingRepository;
 import com.javaweb.repository.BuildingRepository;
 import com.javaweb.repository.ListRentAreaRepository;
@@ -91,6 +93,15 @@ public class BuildingService implements IBuildingService {
     }
 
     @Override
+    public String listRentArea(Long id) {
+        BuildingEntity building = buildingRepository.findById(id).get();
+        List<RentAreaEntity> rentArea = building.getRentAreas();
+        //java-8
+        String listRentArea = rentArea.stream().map(it -> it.getValue().toString()).collect(Collectors.joining(","));
+        return listRentArea;
+    }
+
+    @Override
     @Transactional
     public void deleteBuilding(List<Long> ids) {
         for(Long list : ids) {
@@ -126,5 +137,45 @@ public class BuildingService implements IBuildingService {
             listRentAreaRepository.save(rentAreaEntity);
 //        }
         return buildingConverter.toBuildingDTO(buildingRepository.save(result));
+    }
+
+    @Override
+    public BuildingEntity findById(Long id) {
+        return buildingRepository.findById(id).get();
+    }
+
+    @Override
+    public TypeCodeResponseDTO listTypeCode(Long id) {
+        BuildingEntity building = buildingRepository.findById(id).get();
+        List<ResponseDTO> list = new ArrayList<>();
+        TypeCodeResponseDTO typeCodeResponseDTO = new TypeCodeResponseDTO();
+
+        if (building.getTypeCode() != null) {
+            for (TypeCode it : TypeCode.values()) {
+                ResponseDTO typeDTO = new ResponseDTO();
+                typeDTO.setFullName(it.getCode());
+                typeDTO.setTypeCode(it.name());
+                typeDTO.setChecked("");
+                list.add(typeDTO);
+            }
+        } else {
+            String[] buildingType = building.getTypeCode().split(",");
+            for (TypeCode it : TypeCode.values()) {
+                ResponseDTO typeDTO = new ResponseDTO();
+                typeDTO.setFullName(it.getCode());
+                typeDTO.setTypeCode(it.name());
+                for (String it1 : buildingType) {
+                    if (it1.equals(it.name())) {
+                        typeDTO.setChecked("checked");
+                        break;
+                    } else {
+                        typeDTO.setChecked("");
+                    }
+                }
+                list.add(typeDTO);
+            }
+        }
+        typeCodeResponseDTO.setData(list);
+        return typeCodeResponseDTO;
     }
 }

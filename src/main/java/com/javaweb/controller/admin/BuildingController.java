@@ -72,7 +72,7 @@ public class BuildingController {
     }
 
     @RequestMapping(value = "/admin/building-edit", method = RequestMethod.GET)
-    public ModelAndView buildingEdit(@ModelAttribute("BuildingEdit") BuildingSearchRequest buildingSearchRequest, HttpServletRequest request) {
+    public ModelAndView addBuilding(@ModelAttribute("BuildingEdit") BuildingDTO buildingDTO) {
         ModelAndView mav = new ModelAndView("admin/building/edit");
         mav.addObject("districts", District.getDistricts());
         mav.addObject("typeCode", TypeCode.getTypeCodes());
@@ -80,16 +80,12 @@ public class BuildingController {
     }
 
     @RequestMapping(value = "/admin/building-edit-{id}", method = RequestMethod.GET)
-    public ModelAndView buildingEdit(@PathVariable("id") long id, HttpServletRequest request) {
+    public ModelAndView updateBuilding(@PathVariable("id") long id, HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("admin/building/edit");
-        //xuong db tim building theo id
-        BuildingDTO buildingDTO = new BuildingDTO();
-        buildingDTO.setId(id);
-        buildingDTO.setName("ThePhap");
-        buildingDTO.setFloorArea(100);
-        buildingDTO.setDistrict("HoanKiem");
-        mav.addObject("BuildingEdit", buildingDTO);
-        mav.addObject("typeCode", TypeCode.getTypeCodes());
+        mav.addObject("BuildingEdit", buildingService.findById(id));
+        mav.addObject("listRentArea", buildingService.listRentArea(id));
+        mav.addObject("typeCode", buildingService.listTypeCode(id));
+        mav.addObject("districts", District.getDistricts());
         return mav;
     }
 }
