@@ -13,6 +13,7 @@ public interface IBuildingService {
     List<BuildingSearchResponse> findAll(Map<String, Object> params, List<String> rentType);
     ResponseDTO listStaffs(Long id);
     void deleteBuilding(List<Long> ids);
+    void saveBuilding(BuildingEntity buildingEntity);
     BuildingDTO insertOrUpdateBuilding(BuildingDTO buildingDTO);
     BuildingEntity findById(Long id);
     String listRentArea(Long id);

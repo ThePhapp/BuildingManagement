@@ -23,37 +23,10 @@ import java.util.Map;
 
 @Controller(value="buildingControllerOfAdmin")
 public class BuildingController {
-
     @Autowired
     private BuildingService buildingService;
-
     @Autowired
     private IUserService userService;
-
-//    @RequestMapping(value = "/admin/building-list", method = RequestMethod.GET)
-//    public ModelAndView buildingList(@ModelAttribute BuildingDTO buildingDTO, HttpServletRequest request) {
-//        ModelAndView mav = new ModelAndView("admin/building/list");
-//        mav.addObject("modelSearch", buildingDTO);
-//        //Xu ly lay du lieu tu database
-//
-//        List<BuildingSearchResponse> responseList = buildingService.findAll()
-//        mav.addObject("staffsList", userService.getStaffs());
-//        mav.addObject("districts", District.getDistricts());
-//        mav.addObject("typeCode", TypeCode.getTypeCodes());
-//        return mav;
-//    }
-
-//    @RequestMapping(value = "/admin/building-list", method = RequestMethod.GET)
-//    public ModelAndView buildingList(@ModelAttribute BuildingDTO buildingDTO) {
-//        ModelAndView mav = new ModelAndView("admin/building/list");
-//        mav.addObject("modelSearch", buildingDTO);
-//
-//        // Lấy danh sách tòa nhà từ service
-//        List<BuildingDTO> responseList = buildingService.findAll();
-//        mav.addObject("responseList", responseList);
-//
-//        return mav;
-//    }
 
     @RequestMapping(value="/admin/building-list", method= RequestMethod.GET)
     public ModelAndView buildingList(@ModelAttribute(SystemConstant.MODEL) BuildingDTO model, @ModelAttribute("modelSearch")BuildingDTO buildingDTO,
@@ -86,6 +59,12 @@ public class BuildingController {
         mav.addObject("listRentArea", buildingService.listRentArea(id));
         mav.addObject("typeCode", buildingService.listTypeCode(id));
         mav.addObject("districts", District.getDistricts());
+        return mav;
+    }
+
+    @RequestMapping(value="/admin/building-list-{id}", method= RequestMethod.GET)
+    public ModelAndView deleteBuilding(@ModelAttribute("id")Long id){
+        ModelAndView mav = new ModelAndView("admin/building/edit");
         return mav;
     }
 }

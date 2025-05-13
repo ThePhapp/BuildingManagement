@@ -121,23 +121,30 @@ public class BuildingService implements IBuildingService {
 
     @Override
     @Transactional
+    public void saveBuilding(BuildingEntity buildingEntity) {
+        buildingRepository.save(buildingEntity);
+    }
+
+    @Override
+    @Transactional
     public BuildingDTO insertOrUpdateBuilding(BuildingDTO buildingDTO) {
         BuildingEntity result = modelMapper.map(buildingDTO, BuildingEntity.class);
-//        String[] list = buildingDTO.getRentAreas().split(",");
-//        if (result.getId() != null) {
-//            List<RentAreaEntity> rentAreaEntities = listRentAreaRepository.listRentArea(buildingDTO.getId());
-//            for (RentAreaEntity it : rentAreaEntities) {
-//                listRentAreaRepository.deleteById(it.getId());
-//            }
-//        }
-//        for (String it : list) {
+        String[] list = buildingDTO.getRentAreas().split(",");
+        if(result.getId()!=null){
+            List<RentAreaEntity> listRentArea = listRentAreaRepository.listRentArea(buildingDTO.getId());
+            for (RentAreaEntity item1 : listRentArea) {
+                listRentAreaRepository.deleteById(item1.getId());
+            }
+        }
+        for (String it : list) {
             RentAreaEntity rentAreaEntity = new RentAreaEntity();
-            rentAreaEntity.setValue(500L);
+            rentAreaEntity.setValue(Long.parseLong(it));
             rentAreaEntity.setBuilding(result);
             listRentAreaRepository.save(rentAreaEntity);
-//        }
+        }
         return buildingConverter.toBuildingDTO(buildingRepository.save(result));
     }
+
 
     @Override
     public BuildingEntity findById(Long id) {
