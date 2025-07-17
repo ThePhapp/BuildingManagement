@@ -43,6 +43,64 @@ This system is a Spring Boot–based web application that allows centralized man
 
 ---
 
+## 📁 Project Directory Structure
+
+```bash
+.
+├── src/
+│   └── main/
+│       ├── java/com/javaweb/
+│       │   ├── api/                         # API endpoints (admin/web)
+│       │   │   ├── admin/
+│       │   │   └── web/
+│       │   ├── builder/
+│       │   ├── config/                      # Configuration classes
+│       │   ├── constant/                    # Static constants
+│       │   ├── controller/
+│       │   │   ├── admin/
+│       │   │   └── web/
+│       │   ├── converter/                   # DTO <-> Entity converters
+│       │   ├── entity/
+│       │   ├── enums/
+│       │   ├── exception/                   # Exception handling classes
+│       │   ├── model/
+│       │   │   ├── dto/
+│       │   │   ├── request/
+│       │   │   └── response/
+│       │   ├── repository/
+│       │   │   └── custom/
+│       │   ├── security/                    # Spring Security configuration
+│       │   │   └── utils/
+│       │   ├── service/
+│       │   └── utils/
+│       │   └── SpringBootWebApplication.java
+│
+├── resources/
+│   ├── static/
+│   ├── application.propertie
+│   └── displaytag.properties
+│
+├── webapp/
+│   ├── WEB-INF/
+│   │   ├── views/
+│   │   │   ├── admin/
+│   │   │   │   ├── building/
+│   │   │   │   └── user/
+│   │   │   └── web/
+│   │   ├── common/
+│   │   │   ├── admin/
+│   │   │   └── web/
+│   │   ├── decorators/
+│
+├── target/
+├── .gitattributes
+├── README.md
+├── pom.xml
+└── spring-boot.iml      
+```
+
+
+---
 ## 🚀 How to Run
 
 1. **Clone the repository**:
