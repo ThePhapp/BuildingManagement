@@ -10,7 +10,11 @@ To reduce the workload of real estate operations by enabling efficient managemen
 
 <img width="1901" height="943" alt="image" src="https://github.com/user-attachments/assets/edfac9e9-faec-4739-a467-6f0777c028bc" />
 
-<img width="1903" height="936" alt="image" src="https://github.com/user-attachments/assets/47e1bf6b-41a1-4e41-be85-97242fd5eabf" />
+
+<img width="1901" height="946" alt="image" src="https://github.com/user-attachments/assets/3717a2e3-96f3-4583-ac39-f50dd91474e5" />
+
+
+<img width="1904" height="940" alt="image" src="https://github.com/user-attachments/assets/8dea9cdc-8c7b-4c77-b4ea-fc9fc9d4fdb6" />
 
 ---
 ## 🛠 Project Description
