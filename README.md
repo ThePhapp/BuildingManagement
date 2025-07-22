@@ -8,8 +8,11 @@
 
 To reduce the workload of real estate operations by enabling efficient management of buildings, customers, and staff through digital tools and automation.
 
----
+<img width="1901" height="943" alt="image" src="https://github.com/user-attachments/assets/edfac9e9-faec-4739-a467-6f0777c028bc" />
 
+<img width="1903" height="936" alt="image" src="https://github.com/user-attachments/assets/47e1bf6b-41a1-4e41-be85-97242fd5eabf" />
+
+---
 ## 🛠 Project Description
 
 This system is a Spring Boot–based web application that allows centralized management of real estate data. It includes:
@@ -21,6 +24,7 @@ This system is a Spring Boot–based web application that allows centralized man
   - Assign customers to their responsible staff
 - **Search & Filter**: Quickly find entities based on attributes
 
+<img width="1901" height="931" alt="image" src="https://github.com/user-attachments/assets/238e7efc-fb74-461a-a0ac-78510049f5ef" />
 ---
 
 ## 💡 Highlights
